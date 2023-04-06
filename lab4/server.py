@@ -8,9 +8,10 @@ class MultiplicationServer:
         print(f"Server running on {ip}:{port}")
         self.__manager = BaseManager(address=(ip, port), authkey=authkey)
         self.__register_queues()
-        # Task is a pair of matrix row and vector to multiply
-        self.__tasks: Queue[tuple[list[float], list[float]]] = Queue()
-        self.__results: Queue[float] = Queue()
+        # Task is row index + pair of matrix row and vector to multiply
+        self.__tasks: Queue[tuple[int, list[float], list[float]]] = Queue()
+        # Result is row number + calculation result
+        self.__results: Queue[tuple[int, float]] = Queue()
         self.__server = self.__manager.get_server()
 
     def start(self):

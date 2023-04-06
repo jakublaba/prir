@@ -16,9 +16,9 @@ def load_matrix(file_name: str) -> list[list[float]]:
         rows = int(f.readline())
         cols = int(f.readline())
         matrix: list[list[float]] = []
-        for j in range(cols):
+        for _ in range(cols):
             current_row: list[float] = []
-            for i in range(rows):
+            for _ in range(rows):
                 current_row.append(float(f.readline()))
             matrix.append(current_row)
         return matrix
