@@ -36,6 +36,9 @@ int main(int argc, char** argv) {
     double h = (b - a) / n;
 
     int local_n = n / size;
+    if (rank == size - 1) {
+        local_n += n % size;
+    }
     int local_a = a + rank * local_n * h;
     int local_b = local_a + local_n * h;
     double local_res = integrate(local_a, local_b, local_n, f);
@@ -47,7 +50,7 @@ int main(int argc, char** argv) {
             MPI_Recv(&recv_res, 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             global_res += recv_res;
         }
-        printf("Result: %lf\n", global_res);
+        printf("Result: %lf [%d procs]\n", global_res, size);
     } else {
         MPI_Send(&local_res, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }

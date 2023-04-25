@@ -34,30 +34,19 @@ int main(int argc, char** argv) {
     double b = atof(argv[2]);
     int n = atoi(argv[3]);
     double h = (b - a) / n;
-
+    
     int local_n = n / size;
-    int local_a = a + rank * local_n * h;
-    int local_b = local_a + local_n * h;
+    double local_a = a + rank * local_n * h;
+    double local_b = local_a + local_n * h;
     double local_res = integrate(local_a, local_b, local_n, f);
-    double recv_res;
-    MPI_Request request;
-    MPI_Status status;
+    double global_res = 0.;
+
+    MPI_Reduce(&local_res, &global_res, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0) {
-        double global_res = local_res;
-
-        for (int i = 1; i < size; ++i) {
-            MPI_Irecv(&recv_res, 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &request);
-            MPI_Wait(&request, &status);
-            global_res += recv_res;
-        }
-
         printf("Result: %lf [%d procs]\n", global_res, size);
-    } else {
-        MPI_Isend(&local_res, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &request);
-        MPI_Wait(&request, &status);
     }
-
+    
     MPI_Finalize();
 
     return EXIT_SUCCESS;
