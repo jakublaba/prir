@@ -1,17 +1,15 @@
 CC=mpicc
-FLAGS=-g
+FLAGS=-g -Wall
+BINS=monte_mpi monte_omp
 
-monte_mpi: monte_mpi.o
-	$(CC) -o monte_mpi monte_mpi.o $(FLAGS)
+all: $(BINS)
 
-monte_mpi.o: monte_mpi.c
-	$(CC) -c monte_mpi.c $(FLAGS)
+monte_%: monte_%.o monte_util.o
+	$(CC) $^ -o $@ $(FLAGS)
 
-monte_omp: monte_omp.o
-	$(CC) -o monte_omp monte_omp.o $(FLAGS)
-
-monte_omp.o: monte_omp.c
-	$(CC) -c monte_omp.c $(FLAGS)
+%.o: %.c
+	$(CC) -c $< $(FLAGS)
 
 clean:
 	rm -rf monte_mpi monte_omp *.o
+
