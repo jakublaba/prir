@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
     MPI_Reduce(&local_count, &global_count, 1, MPI_INT, MPI_SUM, 0, MPI_COMM_WORLD);
 
     if (rank == 0){
-        double pi = global_count * 4. / n_pts;
+        double pi = global_count * 4. / n_pts / size;
         printf("PI ~= %f\n", pi);
     }
 
