@@ -11,5 +11,6 @@ typedef struct {
 bool f(point_t*);
 double rand_range(double, double);
 point_t* new_point(double, double);
+point_t* rand_pt();
 
 #endif
