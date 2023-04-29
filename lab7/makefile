@@ -4,8 +4,14 @@ BINS=monte_mpi monte_omp
 
 all: $(BINS)
 
-monte_%: monte_%.o monte_util.o
+monte_mpi: monte_mpi.o monte_util.o
 	$(CC) $^ -o $@ $(FLAGS)
+
+monte_omp: monte_omp.o monte_util.o
+	$(CC) $^ -o $@ $(FLAGS) -fopenmp
+
+monte_omp.o: monte_omp.c
+	$(CC) -c $< -o $@ $(FLAGS) -fopenmp
 
 %.o: %.c
 	$(CC) -c $< $(FLAGS)
