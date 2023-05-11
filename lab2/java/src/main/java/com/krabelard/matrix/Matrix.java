@@ -25,7 +25,7 @@ public class Matrix {
      * Parallel matrix multiplication
      * @param other Matrix to multiply this one with
      * @param nThreads Number of threads to use
-     * @param timeoutOpt Optional argument to specify desired timeout (seconds) before which calculations are aborted (5 by default)
+     * @param timeoutOpt Optional argument to specify desired timeout (seconds) after which calculations are aborted (5 by default)
      * @throws InterruptedException when calculations are aborted due to timeout
      */
     public Matrix multiplyParallel(Matrix other, int nThreads, int... timeoutOpt) throws InterruptedException {
@@ -60,7 +60,7 @@ public class Matrix {
     /**
      * Parallel Frobenius norm
      * @param nThreads Number of threads to use
-     * @param timeoutOpt Optional argument to specify desired timeout (seconds) before which calculations are aborted (5 by default)
+     * @param timeoutOpt Optional argument to specify desired timeout (seconds) after which calculations are aborted (5 by default)
      * @throws InterruptedException when calculations were aborted due to timeout
      */
     public double frobeniusParallel(int nThreads, int... timeoutOpt) throws InterruptedException {
